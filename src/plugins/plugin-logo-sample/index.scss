@@ -1,0 +1,27 @@
+.lowcode-plugin-logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+  width: 300px;
+  .logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .scenario-name {
+    display: block;
+    margin-left: 20px;
+    margin-right: 5px;
+    font-size: 15px;
+  }
+  .info-dropdown {
+    display: block;
+  }
+}
