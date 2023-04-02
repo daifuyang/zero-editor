@@ -1,10 +1,12 @@
 import { IPublicModelPluginContext } from '@alilc/lowcode-types';
 import { injectAssets } from '@alilc/lowcode-plugin-inject';
 import assets from '../../services/assets.json';
-import { getPageSchema } from '../../services/mockService';
+import { getPageSchema } from 'src/services/service';
 const EditorInitPlugin = (ctx: IPublicModelPluginContext, options: any) => {
+
   return {
     async init() {
+      const {data} = options;
       const { material, project, config } = ctx;
       const scenarioName = options['scenarioName'];
       const scenarioDisplayName = options['displayName'] || scenarioName;
@@ -17,9 +19,7 @@ const EditorInitPlugin = (ctx: IPublicModelPluginContext, options: any) => {
       // 设置物料描述
 
       await material.setAssets(await injectAssets(assets));
-
-      const schema = await getPageSchema(scenarioName);
-
+      const schema = await getPageSchema(data);
       // 加载 schema
       project.openDocument(schema);
     },
@@ -44,7 +44,12 @@ EditorInitPlugin.meta = {
         key: 'info',
         type: 'object',
         description: '用于扩展信息',
-      }
+      },
+      {
+        key: 'data',
+        type: 'object',
+        description: '当前页面的数据',
+      },
     ],
   },
 };

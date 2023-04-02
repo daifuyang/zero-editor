@@ -1,0 +1,329 @@
+{
+    "version": "1.0.0",
+    "componentsMap": [
+        {
+            "package": "zero-materials",
+            "version": "0.1.0",
+            "exportName": "Title",
+            "main": "src/index.tsx",
+            "destructuring": true,
+            "subName": "",
+            "componentName": "Title"
+        },
+        {
+            "package": "zero-materials",
+            "version": "0.1.0",
+            "exportName": "Col",
+            "main": "src/index.tsx",
+            "destructuring": true,
+            "subName": "",
+            "componentName": "Col"
+        },
+        {
+            "package": "zero-materials",
+            "version": "0.1.0",
+            "exportName": "Row",
+            "main": "src/index.tsx",
+            "destructuring": true,
+            "subName": "",
+            "componentName": "Row"
+        },
+        {
+            "package": "zero-materials",
+            "version": "0.1.0",
+            "exportName": "Container",
+            "main": "src/index.tsx",
+            "destructuring": true,
+            "subName": "",
+            "componentName": "Container"
+        },
+        {
+            "package": "zero-materials",
+            "version": "0.1.0",
+            "exportName": "Block",
+            "main": "src/index.tsx",
+            "destructuring": true,
+            "subName": "",
+            "componentName": "Div"
+        },
+        {
+            "package": "zero-materials",
+            "version": "0.1.0",
+            "exportName": "Image",
+            "main": "src/index.tsx",
+            "destructuring": true,
+            "subName": "",
+            "componentName": "Image"
+        },
+        {
+            "package": "zero-materials",
+            "version": "0.1.0",
+            "exportName": "Menu",
+            "main": "src/index.tsx",
+            "destructuring": true,
+            "subName": "",
+            "componentName": "Menu"
+        },
+        {
+            "package": "zero-materials",
+            "version": "0.1.0",
+            "exportName": "Navbar",
+            "main": "src/index.tsx",
+            "destructuring": true,
+            "subName": "",
+            "componentName": "Navbar"
+        },
+        {
+            "devMode": "lowCode",
+            "componentName": "Page"
+        },
+        {
+            "package": "zero-materials",
+            "version": "0.1.0",
+            "exportName": "Swiper",
+            "main": "src/index.tsx",
+            "destructuring": true,
+            "subName": "",
+            "componentName": "Swiper"
+        }
+    ],
+    "componentsTree": [
+        {
+            "componentName": "Page",
+            "id": "root",
+            "props": {
+                "ref": "outerView",
+                "style": {
+                    "height": "100%",
+                    "backgroundColor": "#fff"
+                }
+            },
+            "fileName": "/",
+            "dataSource": {
+                "list": []
+            },
+            "state": {},
+            "css": "body {\n  font-size: 12px;\n}",
+            "lifeCycles": {
+                "componentDidMount": {
+                    "type": "JSFunction",
+                    "value": "function componentDidMount() {}",
+                    "source": "function componentDidMount() {}"
+                },
+                "componentWillUnmount": {
+                    "type": "JSFunction",
+                    "value": "function componentWillUnmount() {}",
+                    "source": "function componentWillUnmount() {}"
+                }
+            },
+            "methods": {},
+            "originCode": "class LowcodeComponent extends Component {\n  state = {\n   \n  }\n  componentDidMount() {\n    \n  }\n  componentWillUnmount() {\n    \n  }\n}",
+            "hidden": false,
+            "title": "",
+            "isLocked": false,
+            "condition": true,
+            "conditionGroup": "",
+            "children": [
+                {
+                    "componentName": "Div",
+                    "id": "node_oclfs1kcvy1",
+                    "props": {
+                        "style": {
+                            "backgroundColor": "#f8f8f8"
+                        }
+                    },
+                    "hidden": false,
+                    "title": "顶部头",
+                    "isLocked": false,
+                    "condition": true,
+                    "conditionGroup": "",
+                    "children": [
+                        {
+                            "componentName": "Container",
+                            "id": "node_oclfs1kcvy2",
+                            "props": {
+                                "className": "container",
+                                "absolute": false
+                            },
+                            "hidden": false,
+                            "title": "",
+                            "isLocked": false,
+                            "condition": true,
+                            "conditionGroup": "",
+                            "children": [
+                                {
+                                    "componentName": "Row",
+                                    "id": "node_oclfs1kcvy3",
+                                    "props": {
+                                        "style": {
+                                            "height": "40px"
+                                        },
+                                        "ref": "row-2ae9b7b8"
+                                    },
+                                    "hidden": false,
+                                    "title": "",
+                                    "isLocked": false,
+                                    "condition": true,
+                                    "conditionGroup": "",
+                                    "children": [
+                                        {
+                                            "componentName": "Col",
+                                            "id": "node_oclfs1kcvy4",
+                                            "props": {
+                                                "span": 6,
+                                                "style": {
+                                                    "display": "flex",
+                                                    "alignItems": "center"
+                                                },
+                                                "ref": "col-0f09a3ac"
+                                            },
+                                            "hidden": false,
+                                            "title": "",
+                                            "isLocked": false,
+                                            "condition": true,
+                                            "conditionGroup": "",
+                                            "children": [
+                                                {
+                                                    "componentName": "Title",
+                                                    "id": "node_oclfs1kcvy6",
+                                                    "props": {
+                                                        "children": " 上海在职研究生网-专注在职研究生、博士择校服务",
+                                                        "level": 3,
+                                                        "ref": "title-1500aac4",
+                                                        "style": {
+                                                            "fontSize": "14px",
+                                                            "color": "#666666"
+                                                        }
+                                                    },
+                                                    "hidden": false,
+                                                    "title": "",
+                                                    "isLocked": false,
+                                                    "condition": true,
+                                                    "conditionGroup": ""
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "componentName": "Container",
+                    "id": "node_oclfs1kcvy7",
+                    "props": {
+                        "className": "container",
+                        "absolute": false
+                    },
+                    "hidden": false,
+                    "title": "主容器",
+                    "isLocked": false,
+                    "condition": true,
+                    "conditionGroup": "",
+                    "children": [
+                        {
+                            "componentName": "Navbar",
+                            "id": "node_oclfs1kcvy8",
+                            "props": {
+                                "logo": {
+                                    "type": "JSSlot",
+                                    "value": [
+                                        {
+                                            "componentName": "Image",
+                                            "id": "node_oclfs1kcvya",
+                                            "props": {
+                                                "src": "https://img.alicdn.com/tps/TB16TQvOXXXXXbiaFXXXXXXXXXX-120-120.svg",
+                                                "alt": "alt",
+                                                "style": {
+                                                    "width": 100,
+                                                    "height": 50
+                                                }
+                                            },
+                                            "hidden": false,
+                                            "title": "",
+                                            "isLocked": false,
+                                            "condition": true,
+                                            "conditionGroup": ""
+                                        }
+                                    ]
+                                },
+                                "menu": {
+                                    "type": "JSSlot",
+                                    "value": [
+                                        {
+                                            "componentName": "Menu",
+                                            "id": "node_oclfs1kcvyc",
+                                            "props": {},
+                                            "hidden": false,
+                                            "title": "",
+                                            "isLocked": false,
+                                            "condition": true,
+                                            "conditionGroup": ""
+                                        }
+                                    ]
+                                }
+                            },
+                            "hidden": false,
+                            "title": "导航栏",
+                            "isLocked": false,
+                            "condition": true,
+                            "conditionGroup": ""
+                        },
+                        {
+                            "componentName": "Swiper",
+                            "id": "node_oclfs1o1zx3",
+                            "props": {
+                                "autoplay": true,
+                                "effect": "slide",
+                                "delay": 3000,
+                                "navigation": true,
+                                "pagination": true,
+                                "direction": "horizontal"
+                            },
+                            "hidden": false,
+                            "title": "",
+                            "isLocked": false,
+                            "condition": true,
+                            "conditionGroup": ""
+                        },
+                        {
+                            "componentName": "Div",
+                            "id": "node_oclfs1o1zx7",
+                            "props": {
+                                "style": {
+                                    "marginTop": "15px"
+                                }
+                            },
+                            "hidden": false,
+                            "title": "今日头条",
+                            "isLocked": false,
+                            "condition": true,
+                            "conditionGroup": "",
+                            "children": [
+                                {
+                                    "componentName": "Image",
+                                    "id": "node_oclfs1o1zx8",
+                                    "props": {
+                                        "src": "http://sh.yuloo.com/images/today-headlines-tit.png",
+                                        "alt": "alt",
+                                        "style": {
+                                            "width": "60px",
+                                            "height": "122px"
+                                        }
+                                    },
+                                    "hidden": false,
+                                    "title": "",
+                                    "isLocked": false,
+                                    "condition": true,
+                                    "conditionGroup": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "i18n": {}
+}

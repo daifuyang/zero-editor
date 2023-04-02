@@ -4,9 +4,27 @@ import { Loading } from '@alifd/next';
 import { buildComponents, assetBundle, AssetLevel, AssetLoader } from '@alilc/lowcode-utils';
 import ReactRenderer from '@alilc/lowcode-react-renderer';
 import { injectComponents } from '@alilc/lowcode-plugin-inject';
-import { createFetchHandler } from '@alilc/lowcode-datasource-fetch-handler'
-
 import { getProjectSchemaFromLocalStorage, getPackagesFromLocalStorage } from './services/mockService';
+
+import { RuntimeOptionsConfig } from '@alilc/lowcode-datasource-types';
+
+import request from 'universal-request';
+import { RequestOptions, AsObject } from 'universal-request/lib/types';
+
+export function createFetchHandler(config?: Record<string, unknown>) {
+  return async function(options: RuntimeOptionsConfig) {
+    const requestConfig: RequestOptions = {
+      ...options,
+      url: options.uri,
+      method: options.method as RequestOptions['method'],
+      data: options.params as AsObject,
+      headers: options.headers as AsObject,
+      ...config,
+    };
+    const response = await request(requestConfig);
+    return response.data;
+  };
+}
 
 const getScenarioName = function () {
   if (location.search) {
