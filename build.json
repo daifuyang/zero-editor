@@ -7,7 +7,7 @@
   "devServer": {
     "hot": false
   },
-  "publicPath": "/",
+  "publicPath": "/editor/",
   "externals": {
     "react": "var window.React",
     "react-dom": "var window.ReactDOM",

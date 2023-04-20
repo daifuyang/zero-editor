@@ -1,5 +1,7 @@
 const config = {
-    baseURL: "http://localhost:9080"
-}
+  webAssetsUrl: '/zeroUi/assets-dev.json',
+  formAssetsUrl: '/zeroUi/assets-dev.json',
+  baseURL: '/',
+};
 
-window.config = config
+window.config = config;

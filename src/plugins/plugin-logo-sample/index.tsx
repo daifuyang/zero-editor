@@ -10,28 +10,28 @@ export interface IProps {
 }
 
 const Logo: React.FC<IProps> = (props): React.ReactElement => {
-  const { scenarioDisplayName, scenarioInfo } = props;
+  const { scenarioDisplayName } = props;
   return (
     <div className="lowcode-plugin-logo">
-      <a className="logo" target="blank" href={props.href || 'https://lowcode-engine.cn'} >
-        码上云
+      <a className="logo" target="blank" href={props.href || 'https://www.zerocmf.com'} >
+        {scenarioDisplayName}
       </a>
     </div>
   );
 };
 // 示例 Logo widget
-const LogoSamplePlugin = (ctx: IPublicModelPluginContext) => {
+const LogoPlugin = (ctx: IPublicModelPluginContext) => {
   return {
     async init() {
       const { skeleton, config } = ctx;
-      const scenarioDisplayName = config.get('scenarioDisplayName');
-      const scenarioInfo = config.get('scenarioInfo');
+      const scenarioDisplayName = 'zerocmf';
+      config.set('scenarioDisplayName',scenarioDisplayName);
       // 注册 logo widget
       skeleton.add({
         area: 'topArea',
         type: 'Widget',
         name: 'logo',
-        content: <Logo scenarioDisplayName={scenarioDisplayName} scenarioInfo={scenarioInfo}  />,
+        content: <Logo scenarioDisplayName={scenarioDisplayName} scenarioInfo={{}}  />,
         contentProps: {
           logo: 'https://img.alicdn.com/imgextra/i4/O1CN013w2bmQ25WAIha4Hx9_!!6000000007533-55-tps-137-26.svg',
           href: 'http://lowcode.zerocmf.com',
@@ -43,8 +43,8 @@ const LogoSamplePlugin = (ctx: IPublicModelPluginContext) => {
     },
   };
 }
-LogoSamplePlugin.pluginName = 'LogoSamplePlugin';
-LogoSamplePlugin.meta = {
-  dependencies: ['EditorInitPlugin'],
+LogoPlugin.pluginName = 'LogoPlugin';
+LogoPlugin.meta = {
+  dependencies: [],
 };
-export default LogoSamplePlugin;
+export default LogoPlugin;

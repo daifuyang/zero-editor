@@ -4,7 +4,7 @@ import { Loading } from '@alifd/next';
 import { buildComponents, assetBundle, AssetLevel, AssetLoader } from '@alilc/lowcode-utils';
 import ReactRenderer from '@alilc/lowcode-react-renderer';
 import { injectComponents } from '@alilc/lowcode-plugin-inject';
-import { getProjectSchemaFromLocalStorage, getPackagesFromLocalStorage } from './services/mockService';
+import { getProjectSchemaFromLocalStorage, getPackagesFromLocalStorage } from './services/website/mockService';
 
 import { RuntimeOptionsConfig } from '@alilc/lowcode-datasource-types';
 

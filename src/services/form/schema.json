@@ -1,0 +1,66 @@
+{
+  "componentName": "Page",
+  "id": "node_dockcviv8fo1",
+  "props": {
+    "ref": "outerView",
+    "style": {
+      "height": "100%",
+      "backgroundColor": "#fff"
+    }
+  },
+  "fileName": "/",
+  "dataSource": {
+    "list": []
+  },
+  "state": {},
+  "css": "",
+  "lifeCycles": {
+    "componentDidMount": {
+      "type": "JSFunction",
+      "value": "function componentDidMount() {}",
+      "source": "function componentDidMount() {}"
+    },
+    "componentWillUnmount": {
+      "type": "JSFunction",
+      "value": "function componentWillUnmount() {}",
+      "source": "function componentWillUnmount() {}"
+    }
+  },
+  "methods": {},
+  "originCode": "class LowcodeComponent extends Component {\n  state = {\n   \n  }\n  componentDidMount() {\n    \n  }\n  componentWillUnmount() {\n    \n  }\n}",
+  "hidden": false,
+  "title": "",
+  "isLocked": false,
+  "condition": true,
+  "conditionGroup": "",
+  "children": [
+    {
+      "componentName": "Form",
+      "id": "node_oclglw4grw1",
+      "props": {
+        "onFinish": {
+          "type": "JSExpression",
+          "value": "function() {\n      const self = this;\n      try {\n        return (function onFinish(values) {\n  console.log('onFinish', values);\n}).apply(self, arguments);\n      } catch(e) {\n        logger.warn('call function which parsed by lowcode failed: ', e);\n        return e.message;\n      }\n    }"
+        },
+        "onFinishFailed": {
+          "type": "JSExpression",
+          "value": "function() {\n      const self = this;\n      try {\n        return (function onFinishFailed({ values, errorFields, outOfDate }) {\n  console.log('onFinishFailed', values, errorFields, outOfDate);\n}).apply(self, arguments);\n      } catch(e) {\n        logger.warn('call function which parsed by lowcode failed: ', e);\n        return e.message;\n      }\n    }"
+        },
+        "_fields": {},
+        "colon": true,
+        "labelCol": {
+          "span": 8
+        },
+        "wrapperCol": {
+          "span": 16
+        },
+        "layout": "horizontal"
+      },
+      "hidden": false,
+      "title": "",
+      "isLocked": false,
+      "condition": true,
+      "conditionGroup": ""
+    }
+  ]
+}

@@ -300,9 +300,12 @@ export default class ComponentPane extends React.Component<ComponentPaneProps, C
 
   render() {
     return (
-      <div>
+      <>
+      {/* <div>
         1111
-      </div>
+      </div> */}
+      </>
+      
       // <div className={cx('lowcode-component-panel')}>
       //   <div className={cx('header')}>
       //     <Search

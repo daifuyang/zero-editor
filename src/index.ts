@@ -1,9 +1,18 @@
 import { init, plugins } from '@alilc/lowcode-engine';
-import EditorInitPlugin from './plugins/plugin-editor-init';
+
+import WebInitPlugin from './plugins/plugin-web-init'; // 网站配置器注册
+import SaveWebsitePlugin from './plugins/plugin-web-save';
+import PreviewWebPlugin from './plugins/plugin-web-preview';
+
+import FormInitPlugin from './plugins/plugin-form-init'; // 表单配置器注册
+import SaveFormPlugin from './plugins/plugin-form-save';
+import PreviewFormPlugin from './plugins/plugin-form-preview';
+
 import UndoRedoPlugin from '@alilc/lowcode-plugin-undo-redo';
 import ZhEnPlugin from '@alilc/lowcode-plugin-zh-en';
 import CodeGenPlugin from '@alilc/lowcode-plugin-code-generator';
 import DataSourcePanePlugin from '@alilc/lowcode-plugin-datasource-pane';
+// import DataSourcePanePlugin from '../lowcode-plugins/packages/plugin-datasource-pane/src';
 import SchemaPlugin from '@alilc/lowcode-plugin-schema';
 import CodeEditorPlugin from '@alilc/lowcode-plugin-code-editor';
 import ManualPlugin from '@alilc/lowcode-plugin-manual';
@@ -13,21 +22,22 @@ import ComponentPanelPlugin from './plugins/plugin-component-panel';
 import AdvComponentPanelPlugin from './plugins/plugin-adv-component-pane';
 import DefaultSettersRegistryPlugin from './plugins/plugin-default-setters-registry';
 import LoadIncrementalAssetsWidgetPlugin from './plugins/plugin-load-incremental-assets-widget';
-import SaveSamplePlugin from './plugins/plugin-save-sample';
-import PreviewSamplePlugin from './plugins/plugin-preview-sample';
+
 import CustomSetterSamplePlugin from './plugins/plugin-custom-setter-sample';
 import SetRefPropPlugin from '@alilc/lowcode-plugin-set-ref-prop';
 import LogoSamplePlugin from './plugins/plugin-logo-sample';
+
+import 'antd/dist/antd.css';
 import './global.scss';
-import { showPage } from './services/api/appPage';
 
 import { RuntimeOptionsConfig } from '@alilc/lowcode-datasource-types';
 
 import request from 'universal-request';
 import { RequestOptions, AsObject } from 'universal-request/lib/types';
+import { showPage } from './services/website/api/appPage';
 
 export function createFetchHandler(config?: Record<string, unknown>) {
-  return async function(options: RuntimeOptionsConfig) {
+  return async function (options: RuntimeOptionsConfig) {
     const requestConfig: RequestOptions = {
       ...options,
       url: options.uri,
@@ -41,14 +51,29 @@ export function createFetchHandler(config?: Record<string, unknown>) {
   };
 }
 
-async function registerPlugins(data: any) {
+async function registerPlugins() {
+  const { state: { scence } = { scence } } = window as any;
+
   await plugins.register(InjectPlugin);
 
-  await plugins.register(EditorInitPlugin, {
-    scenarioName: 'codecloud',
-    displayName: '码上云',
-    data,
-  });
+  const scenarioName = 'codecloud';
+  const displayName = 'zerocmf';
+
+  if (scence == 'website') {
+    await plugins.register(WebInitPlugin, {
+      scenarioName,
+      displayName,
+    });
+    await plugins.register(SaveWebsitePlugin);
+    await plugins.register(PreviewWebPlugin);
+  } else if (scence == 'form') {
+    await plugins.register(FormInitPlugin, {
+      scenarioName: 'form-' + scenarioName,
+      displayName,
+    });
+    await plugins.register(SaveFormPlugin);
+    await plugins.register(PreviewFormPlugin);
+  }
 
   // 设置内置 setter 和事件绑定、插件绑定面板
   await plugins.register(DefaultSettersRegistryPlugin);
@@ -83,6 +108,7 @@ async function registerPlugins(data: any) {
       },
       {
         type: 'jsonp',
+        schema: {},
       },
     ],
   });
@@ -92,39 +118,51 @@ async function registerPlugins(data: any) {
   // 注册出码插件
   // await plugins.register(CodeGenPlugin);
 
-  await plugins.register(SaveSamplePlugin, {
-    data,
-  });
-
-  await plugins.register(PreviewSamplePlugin);
-
   await plugins.register(CustomSetterSamplePlugin);
 }
 
-const fetchData = async () => {
-  const pageId: any = new URLSearchParams(location.search.slice(1)).get('pageId');
-  if (!pageId) {
-    return {
-      code: 0,
-      msg: '页面不存在',
-    };
-  }
-  const res: any = await showPage(pageId);
-  return res;
-};
-
 (async function main() {
-  const { React, ReactDOM, Next } = window as any;
+  const { Next } = window as any;
   const { Notification } = Next;
 
-  const res = await fetchData();
-  if (res.code != 1) {
-    Notification.open({ title: '系统错误', content: res.msg, type: 'error' });
-    return;
+  const params = new URLSearchParams(location.search.slice(1));
+
+  const scence: any = params.get('scence') || 'website'; // 应用场景
+  const appId: any = params.get('appId'); // 渠道id
+  const pageId: any = params.get('pageId'); // 页面id
+  const debug: any = params.get('debug'); //是否调试模式
+
+  const formId: any =  params.get('formId'); // 表单id
+
+  if (scence == 'website') {
+    if (!appId || !pageId) {
+      return Notification.open({ title: '系统错误', content: '错误的URL', type: 'error' });
+    }
+    if (!pageId) {
+      return {
+        code: 0,
+        msg: '页面不存在',
+      };
+    }
+    const res: any = await showPage(pageId);
+    if (res.code != 1) {
+      return Notification.open({ title: '系统错误', content: res.msg, type: 'error' });
+    }
+  } else if (scence == 'form') {
+    if(!formId) {
+      return Notification.open({ title: '系统错误', content: '错误的URL', type: 'error' });
+    }
   }
 
-  const { data } = res;
-  await registerPlugins(data);
+  (window as any).state = {
+    scence,
+    appId: Number(appId),
+    pageId: Number(pageId),
+    formId: Number(formId),
+    debug,
+  };
+
+  await registerPlugins();
   init(document.getElementById('lce-container')!, {
     // locale: 'zh-CN',
     enableCondition: true,

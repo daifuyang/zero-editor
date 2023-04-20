@@ -2,7 +2,7 @@ import { material, project } from '@alilc/lowcode-engine';
 import { filterPackages } from '@alilc/lowcode-plugin-inject';
 import { Message, Dialog } from '@alifd/next';
 import { IPublicEnumTransformStage } from '@alilc/lowcode-types';
-import { savePage } from './api/appPage';
+import { addPage, savePage } from './api/appPage';
 import schema from './schema.json';
 
 export const saveBakSchema = async (pageId: number) => {
@@ -12,13 +12,124 @@ export const saveBakSchema = async (pageId: number) => {
   await setPackgesToLocalStorage(scenarioName);
 };
 
-export const saveSchema = async (data: any) => {
-  const pageId = data.id;
-  // 保持到草稿
+const assignSnippet = (schema: any) => {
+  const component = schema?.exportSchema();
+  const snippet = {
+    componentName: component?.componentName,
+    title: component?.title,
+    props: component?.props,
+    children: component?.children,
+  };
+
+  return snippet;
+};
+
+export const saveSchema = async (pageData: any) => {
+  const {
+    state: { appId, pageId },
+  } = window as any;
+  // 保存到草稿
   saveBakSchema(pageId);
 
+  // 获取公共区块schema
+  let headerSchema: any = project.currentDocument?.root?.children?.find(
+    (n) => n.componentName === 'Header',
+  );
+
+  let footerSchema: any = project.currentDocument?.root?.children?.find(
+    (n) => n.componentName === 'Footer',
+  );
+
+  const {
+    publicPage: { header, footer, headerId, headerStatus, footerId, footerStatus },
+  } = window as any;
+
+  let headerRes: any;
+  if (headerSchema) {
+    const snippet = assignSnippet(headerSchema);
+    const saveSchema = {
+      dataSource: {
+        list: [
+          {
+            type: 'fetch',
+            isInit: true,
+            options: {
+              params: {},
+              method: 'GET',
+              isCors: true,
+              timeout: 5000,
+              headers: {},
+              uri: '/api/v1/portal/app/nav/1',
+            },
+            id: 'nav',
+            dataHandler: {
+              type: 'JSFunction',
+              value:
+                'function(res) { \n  if(res.code != 1) {\n    return []\n  }\n  return res.data \n  }',
+            },
+          },
+        ],
+      },
+      snippet,
+    };
+    const params = {
+      appId,
+      isPublic: 1,
+      name: ' 公共页头',
+      type: 'header',
+      schema: JSON.stringify(saveSchema),
+      status: 1,
+    };
+    if (headerId) {
+      // 修改
+      headerRes = await savePage(headerId, params);
+    } else {
+      // 新增
+      headerRes = await addPage(params);
+    }
+  } else {
+    let params: any = {
+      ...header,
+      status: 0,
+    };
+    if (headerStatus != 0) {
+      headerRes = await savePage(headerId, params);
+    }
+  }
+
+  let footerRes: any;
+  if (footerSchema) {
+    const snippet = assignSnippet(footerSchema);
+    const saveSchema = {
+      snippet,
+    };
+    const params = {
+      appId,
+      isPublic: 1,
+      name: ' 公共页脚',
+      type: 'footer',
+      schema: JSON.stringify(saveSchema),
+      status: 1,
+    };
+    if (footerId) {
+      // 修改
+      footerRes = await savePage(footerId, params);
+    } else {
+      // 新增
+      footerRes = await addPage(params);
+    }
+  } else {
+    let params: any = {
+      ...footer,
+      status: 0,
+    };
+    if (footerStatus != 0) {
+      footerRes = await savePage(footerId, params);
+    }
+  }
+
   const schema = JSON.stringify(project.exportSchema(IPublicEnumTransformStage.Save));
-  const res: any = await savePage(pageId, { ...data, schema });
+  const res: any = await savePage(pageId, { ...pageData, schema });
   if (res.code != 1) {
     Message.error(res.msg);
     return;
@@ -36,7 +147,7 @@ export const readLocalSchema = (pageId: number) => {
     project.getCurrentDocument()?.importSchema(pageSchema);
     project.simulatorHost?.rerender();
     Message.success('本地草稿恢复成功！');
-    return
+    return;
   }
   Message.success('暂无本地草稿！');
 };

@@ -2,10 +2,10 @@ import { IPublicModelPluginContext } from '@alilc/lowcode-types';
 import { Button } from '@alifd/next';
 import {
   saveSchema,
-} from '../../services/mockService';
+} from '../../services/website/mockService';
 
 // 保存功能示例
-const PreviewSamplePlugin = (ctx: IPublicModelPluginContext) => {
+const PreviewWebPlugin = (ctx: IPublicModelPluginContext) => {
   return {
     async init() {
       const { skeleton, config } = ctx;
@@ -33,8 +33,8 @@ const PreviewSamplePlugin = (ctx: IPublicModelPluginContext) => {
     },
   };
 }
-PreviewSamplePlugin.pluginName = 'PreviewSamplePlugin';
-PreviewSamplePlugin.meta = {
-  dependencies: ['EditorInitPlugin'],
+PreviewWebPlugin.pluginName = 'PreviewWebPlugin';
+PreviewWebPlugin.meta = {
+  dependencies: ['WebInitPlugin'],
 };
-export default PreviewSamplePlugin;
+export default PreviewWebPlugin;

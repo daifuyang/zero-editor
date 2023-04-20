@@ -12,6 +12,7 @@ export default class ComponentManager {
   };
 
   getSnippetById = (id: string) => {
+    console.log('this.snippets.get(id);',this.snippets.get(id))
     return this.snippets.get(id);
   };
 }

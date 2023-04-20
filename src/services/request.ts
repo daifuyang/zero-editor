@@ -58,7 +58,6 @@ const errorHandler = (error: { response: Response }): Response => {
 export const instance = axios.create({
   // baseURL: (window as any).config.baseURL,
   responseType: 'json', // default
-  responseEncoding: 'utf8', // default
 });
 
 /**
@@ -67,7 +66,6 @@ export const instance = axios.create({
 export const authInstance = axios.create({
   // baseURL: (window as any).config.baseURL,
   responseType: 'json', // default
-  responseEncoding: 'utf8', // default
 });
 
 // 添加请求拦截器
@@ -77,8 +75,8 @@ authInstance.interceptors.request.use(
 
     let token: any = localStorage.getItem('token');
     if (token) {
-      token = JSON.parse(token);
-      config.headers.Authorization = `Bearer ${token.access_token}`;
+      // token = JSON.parse(token);
+      config.headers.Authorization = `Bearer ${token}`;
     } else {
       Message.error('您的账号已失效，请先登录！');
     }
@@ -90,14 +88,14 @@ authInstance.interceptors.request.use(
   },
 );
 
-const request = (url: string, config: any) => {
+const request = (url: string, config: any = {}) => {
   config.url = url;
   return instance.request(config).catch(function (error) {
     errorHandler(error);
   });
 };
 
-const authRequest = (url: string, config: any) => {
+const authRequest = (url: string, config: any = {}) => {
   config.url = url;
   return authInstance.request(config).catch(function (error) {
     errorHandler(error);
