@@ -3,6 +3,8 @@ import { filterPackages } from '@alilc/lowcode-plugin-inject';
 import { Message, Dialog } from '@alifd/next';
 import { IPublicEnumTransformStage } from '@alilc/lowcode-types';
 import { addPage, savePage } from './api/appPage';
+import _ from 'lodash';
+import _set from 'lodash/set';
 import schema from './schema.json';
 
 export const saveBakSchema = async (pageId: number) => {
@@ -87,7 +89,7 @@ export const saveSchema = async (pageData: any) => {
       // 新增
       headerRes = await addPage(params);
     }
-  } else {
+  } else if(headerId) {
     let params: any = {
       ...header,
       status: 0,
@@ -118,7 +120,7 @@ export const saveSchema = async (pageData: any) => {
       // 新增
       footerRes = await addPage(params);
     }
-  } else {
+  } else if(footerId) {
     let params: any = {
       ...footer,
       status: 0,
@@ -128,7 +130,17 @@ export const saveSchema = async (pageData: any) => {
     }
   }
 
-  const schema = JSON.stringify(project.exportSchema(IPublicEnumTransformStage.Save));
+  const exportSchema = project.exportSchema(IPublicEnumTransformStage.Save);
+
+  if (pageData.type == 'article' || pageData.type == 'list') {
+    // 删除演示数据api
+    const oldList = exportSchema?.componentsTree?.[0]?.dataSource?.list || [];
+    const newList = _.filter(oldList, function (o) {
+      return o.id != 'data';
+    });
+    _set(exportSchema, 'componentsTree[0].dataSource.list', newList);
+  }
+  const schema = JSON.stringify(exportSchema);
   const res: any = await savePage(pageId, { ...pageData, schema });
   if (res.code != 1) {
     Message.error(res.msg);

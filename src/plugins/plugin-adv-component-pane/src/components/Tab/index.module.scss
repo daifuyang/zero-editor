@@ -1,3 +1,12 @@
+.medium {
+  .list-sidebar {
+    width: 110px;
+  }
+  .list-content {
+    flex: 1;
+  }
+}
+
 .tab {
   display: flex;
   flex-direction: column;

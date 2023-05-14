@@ -73,6 +73,7 @@ const EditorInitPlugin = (ctx: IPublicModelPluginContext, options: any) => {
 
       // 设置物料描述
       if (debug != null) {
+        // const assets: any = await request(`/materials/web/assets-dev.json`);
         await material.setAssets(await injectAssets(assets));
       } else {
         const assets: any = await request((window as any).config.webAssetsUrl);
@@ -130,7 +131,23 @@ EditorInitPlugin.pluginName = 'WebInitPlugin';
 EditorInitPlugin.meta = {
   preferenceDeclaration: {
     title: '插件配置',
-    properties: [],
+    properties: [
+      {
+        key: 'scenarioName',
+        type: 'string',
+        description: '用于localstorage存储key',
+      },
+      {
+        key: 'displayName',
+        type: 'string',
+        description: '用于显示的场景名',
+      },
+      {
+        key: 'info',
+        type: 'object',
+        description: '用于扩展信息',
+      },
+    ],
   },
 };
 export default EditorInitPlugin;

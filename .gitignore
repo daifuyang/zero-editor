@@ -41,3 +41,4 @@ Thumbs.db
 .lock
 package-lock.json
 .vdev
+public/zeroUi/

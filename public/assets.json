@@ -42,14 +42,6 @@
       "library": "bootstrap"
     },
     {
-      "package": "@ant-design/icons",
-      "version": "4.7.0",
-      "urls": [
-        "//g.alicdn.com/code/npm/@ali/ant-design-icons-cdn/4.5.0/index.umd.min.js"
-      ],
-      "library": "icons"
-    },
-    {
       "package": "antd",
       "version": "4.23.0",
       "urls": [
@@ -59,47 +51,56 @@
       "library": "antd"
     },
     {
-      "package": "aos",
-      "version": "2.3.1",
+      "package": "form-materials",
+      "version": "0.1.0",
+      "library": "FormMaterials",
       "urls": [
-        "//unpkg.com/aos@2.3.1/dist/aos.js",
-        "//unpkg.com/aos@2.3.1/dist/aos.css"
+        "./materials/form/render/default/view.js",
+        "./materials/form/render/default/view.css"
       ],
-      "library": "aos"
-    },
-    {
-      "package": "parallax",
-      "version": "3.1.0",
-      "urls": [
-        "//unpkg.com/parallax-js@3.1.0/dist/parallax.min.js"
+      "editUrls": [
+        "./materials/form/view.js",
+        "./materials/form/view.css"
       ],
-      "library": "aos"
+      "advancedUrls": {
+        "default": [
+          "./materials/form/render/default/view.js",
+          "./materials/form/render/default/view.css"
+        ]
+      },
+      "advancedEditUrls": {}
     }
   ],
-  "components": [],
+  "components": [
+    {
+      "exportName": "FormMaterialsMeta",
+      "npm": {
+        "package": "form-materials",
+        "version": "0.1.0"
+      },
+      "url": "./materials/form/meta.js",
+      "urls": {
+        "default": "./materials/form/meta.js"
+      },
+      "advancedUrls": {
+        "default": [
+          "./materials/form/meta.js"
+        ]
+      }
+    }
+  ],
   "sort": {
     "groupList": [
-      "精选组件",
-      "原子组件"
+      "组件"
     ],
     "categoryList": [
-      "基础元素",
-      "布局容器类",
-      "表格类",
-      "表单详情类",
-      "帮助类",
-      "对话框类",
-      "业务类",
-      "通用",
-      "引导",
-      "信息输入",
-      "信息展示",
-      "信息反馈"
+      "基础",
+      "容器",
+      "导航"
     ]
   },
   "groupList": [
-    "精选组件",
-    "原子组件"
+    "组件"
   ],
   "ignoreComponents": {}
 }

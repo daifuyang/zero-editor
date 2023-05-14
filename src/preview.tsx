@@ -4,15 +4,21 @@ import { Loading } from '@alifd/next';
 import { buildComponents, assetBundle, AssetLevel, AssetLoader } from '@alilc/lowcode-utils';
 import ReactRenderer from '@alilc/lowcode-react-renderer';
 import { injectComponents } from '@alilc/lowcode-plugin-inject';
-import { getProjectSchemaFromLocalStorage, getPackagesFromLocalStorage } from './services/website/mockService';
+import {
+  getProjectSchemaFromLocalStorage,
+  getPackagesFromLocalStorage,
+} from './services/website/mockService';
 
 import { RuntimeOptionsConfig } from '@alilc/lowcode-datasource-types';
 
 import request from 'universal-request';
 import { RequestOptions, AsObject } from 'universal-request/lib/types';
+import { getArticleLink, getListLink, getSiteId, navigatorTo } from './utils/utils';
+import moment from 'moment';
 
 export function createFetchHandler(config?: Record<string, unknown>) {
-  return async function(options: RuntimeOptionsConfig) {
+  return async function (options: RuntimeOptionsConfig) {
+    const siteId = getSiteId();
     const requestConfig: RequestOptions = {
       ...options,
       url: options.uri,
@@ -21,6 +27,7 @@ export function createFetchHandler(config?: Record<string, unknown>) {
       headers: options.headers as AsObject,
       ...config,
     };
+    requestConfig.params.siteId = siteId;
     const response = await request(requestConfig);
     return response.data;
   };
@@ -31,7 +38,7 @@ const getScenarioName = function () {
     return new URLSearchParams(location.search.slice(1)).get('scenarioName') || 'index';
   }
   return 'index';
-}
+};
 
 const SamplePreview = () => {
   const [data, setData] = useState({});
@@ -85,9 +92,15 @@ const SamplePreview = () => {
         schema={schema}
         components={components}
         appHelper={{
+          utils: {
+            getListLink,
+            getArticleLink,
+            navigatorTo,
+            moment,
+          },
           requestHandlersMap: {
-            fetch: createFetchHandler()
-          }
+            fetch: createFetchHandler(),
+          },
         }}
       />
     </div>

@@ -38,6 +38,7 @@ const FormInitPlugin = (ctx: IPublicModelPluginContext, options: any) => {
 
       // 设置物料描述
       if (debug != null) {
+        // const assets: any = await request(`/materials/form/assets-dev.json`);
         await material.setAssets(await injectAssets(assets));
       } else {
         const assets: any = await request((window as any).config.formAssetsUrl);

@@ -13,8 +13,8 @@ const ComponentAdvComponentPlugin = (ctx: IPublicModelPluginContext) => {
         contentProps: {},
         props: {
           align: 'top',
-          icon: 'geshi',
-          description: '高级组件',
+          icon: 'qukuaibuju',
+          description: '区块库',
         },
       });
       componentsPane?.disable?.();

@@ -4,6 +4,7 @@ import { Message, Dialog } from '@alifd/next';
 import { IPublicEnumTransformStage } from '@alilc/lowcode-types';
 import schemaDefault from './schema.json';
 import { saveForm } from './api/form';
+import schema from './schema.json';
 
 const nameKey = 'bak_form_';
 
@@ -26,6 +27,28 @@ const assignSnippet = (schema: any) => {
   return snippet;
 };
 
+const recursionForm = (data: any[] = []) => {
+  const form: any = [];
+  data.forEach((item: any) => {
+    let formItem: any;
+    if (item.componentName === 'Form.Item') {
+      const { label, name } = item.props;
+      formItem = {
+        key: name,
+        title: label,
+      };
+    }
+
+    if (item.children) {
+      const children: any = recursionForm(item.children);
+      form.push(...children);
+    }
+
+    if (formItem) form.push(formItem);
+  });
+  return form;
+};
+
 export const saveSchema = async (formData: any) => {
   const {
     state: { formId },
@@ -33,9 +56,19 @@ export const saveSchema = async (formData: any) => {
   // 保存到草稿
   saveBakSchema(formId);
 
-  const schema = JSON.stringify(project.exportSchema(IPublicEnumTransformStage.Save));
+  const schemaObj: any = project.exportSchema(IPublicEnumTransformStage.Save);
+  const formObj = schemaObj['componentsTree'][0]?.children?.[0];
+  const columnsObj = recursionForm(formObj.children);
+  // 找出当前表单的key value映射用于回显
 
-  const res = await saveForm(formId, { ...formData, schema });
+  const schema = JSON.stringify(schemaObj);
+  const columns = JSON.stringify(columnsObj);
+
+  const res:any = await saveForm(formId, { ...formData, schema, columns });
+
+  if(res.code !== 1) {
+    Message.error(res.msg)
+  }
 
   Message.success('保存成功!');
 };
@@ -127,7 +160,7 @@ export const getPackagesFromLocalStorage = (scenarioName: string) => {
   return JSON.parse(window.localStorage.getItem(getLSName(scenarioName, 'packages')) || '{}');
 };
 
-export const getPageSchema = async (data: any) => {
+export const getPageSchema = (data: any) => {
   const { schema } = data;
   const schemaObj = JSON.parse(schema || '{}');
   const pageSchema = schemaObj?.componentsTree?.[0];
@@ -142,3 +175,5 @@ export const getPageSchema = async (data: any) => {
 
   return schema;
 };
+
+(window as any).getPageSchema = getPageSchema;

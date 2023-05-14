@@ -4,6 +4,7 @@
  */
 import axios from 'axios';
 import { Message, Notification } from '@alifd/next';
+import { getSiteId } from 'src/utils/utils';
 
 
 const codeMessage: any = {
@@ -52,6 +53,8 @@ const errorHandler = (error: { response: Response }): Response => {
   return response;
 };
 
+(window as any).services = {}
+
 /**
  * 配置request请求时的默认参数
  */
@@ -59,6 +62,21 @@ export const instance = axios.create({
   // baseURL: (window as any).config.baseURL,
   responseType: 'json', // default
 });
+
+instance.interceptors.request.use(
+  function (config: any) {
+    const siteId = getSiteId()
+    if(!config.params) {
+      config.params = {}
+    }
+    config.params.siteId = siteId
+    return config;
+  },
+  function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  },
+);
 
 /**
  * 配置oAuth请求时的默认参数
@@ -72,7 +90,6 @@ export const authInstance = axios.create({
 authInstance.interceptors.request.use(
   function (config: any) {
     // 在发送请求之前做些什么
-
     let token: any = localStorage.getItem('token');
     if (token) {
       // token = JSON.parse(token);
@@ -80,6 +97,11 @@ authInstance.interceptors.request.use(
     } else {
       Message.error('您的账号已失效，请先登录！');
     }
+    const siteId = getSiteId()
+    if(!config.params) {
+      config.params = {}
+    }
+    config.params.siteId = siteId
     return config;
   },
   function (error) {

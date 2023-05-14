@@ -1,6 +1,6 @@
 const config = {
-  webAssetsUrl: '/zeroUi/assets-dev.json',
-  formAssetsUrl: '/zeroUi/assets-dev.json',
+  webAssetsUrl: '/materials/web/assets-dev.json',
+  formAssetsUrl: '/materials/form/assets-dev.json',
   baseURL: '/',
 };
 

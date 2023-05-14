@@ -4,6 +4,8 @@ import WebInitPlugin from './plugins/plugin-web-init'; // 网站配置器注册
 import SaveWebsitePlugin from './plugins/plugin-web-save';
 import PreviewWebPlugin from './plugins/plugin-web-preview';
 
+import WebDataSource from './plugins/plugin-web-datasource';
+
 import FormInitPlugin from './plugins/plugin-form-init'; // 表单配置器注册
 import SaveFormPlugin from './plugins/plugin-form-save';
 import PreviewFormPlugin from './plugins/plugin-form-preview';
@@ -23,9 +25,13 @@ import AdvComponentPanelPlugin from './plugins/plugin-adv-component-pane';
 import DefaultSettersRegistryPlugin from './plugins/plugin-default-setters-registry';
 import LoadIncrementalAssetsWidgetPlugin from './plugins/plugin-load-incremental-assets-widget';
 
-import CustomSetterSamplePlugin from './plugins/plugin-custom-setter-sample';
+import CustomSetterPlugin from './plugins/plugin-custom-setter';
 import SetRefPropPlugin from '@alilc/lowcode-plugin-set-ref-prop';
 import LogoSamplePlugin from './plugins/plugin-logo-sample';
+
+import { getListLink,getArticleLink, navigatorTo } from 'src/utils/utils'
+
+import moment from 'moment';
 
 import 'antd/dist/antd.css';
 import './global.scss';
@@ -35,9 +41,13 @@ import { RuntimeOptionsConfig } from '@alilc/lowcode-datasource-types';
 import request from 'universal-request';
 import { RequestOptions, AsObject } from 'universal-request/lib/types';
 import { showPage } from './services/website/api/appPage';
+import { getSiteId } from './utils/utils';
 
 export function createFetchHandler(config?: Record<string, unknown>) {
   return async function (options: RuntimeOptionsConfig) {
+
+    const siteId = getSiteId()
+
     const requestConfig: RequestOptions = {
       ...options,
       url: options.uri,
@@ -46,27 +56,28 @@ export function createFetchHandler(config?: Record<string, unknown>) {
       headers: options.headers as AsObject,
       ...config,
     };
+    requestConfig.params.siteId = siteId
     const response = await request(requestConfig);
     return response.data;
   };
 }
 
 async function registerPlugins() {
-  const { state: { scence } = { scence } } = window as any;
+  const { state: { scene } = { scene } } = window as any;
 
   await plugins.register(InjectPlugin);
 
   const scenarioName = 'codecloud';
   const displayName = 'zerocmf';
 
-  if (scence == 'website') {
+  if (scene == 'website') {
     await plugins.register(WebInitPlugin, {
       scenarioName,
       displayName,
     });
     await plugins.register(SaveWebsitePlugin);
     await plugins.register(PreviewWebPlugin);
-  } else if (scence == 'form') {
+  } else if (scene == 'form') {
     await plugins.register(FormInitPlugin, {
       scenarioName: 'form-' + scenarioName,
       displayName,
@@ -118,23 +129,30 @@ async function registerPlugins() {
   // 注册出码插件
   // await plugins.register(CodeGenPlugin);
 
-  await plugins.register(CustomSetterSamplePlugin);
+  await plugins.register(CustomSetterPlugin);
+
+  if (scene == 'website') {
+    await plugins.register(WebDataSource);
+  }
 }
 
 (async function main() {
   const { Next } = window as any;
   const { Notification } = Next;
-
   const params = new URLSearchParams(location.search.slice(1));
 
-  const scence: any = params.get('scence') || 'website'; // 应用场景
+  const siteId: any = params.get('siteId'); //
+  const scene: any = params.get('scene') || 'website'; // 应用场景
   const appId: any = params.get('appId'); // 渠道id
   const pageId: any = params.get('pageId'); // 页面id
   const debug: any = params.get('debug'); //是否调试模式
+  const formId: any = params.get('formId'); // 表单id
 
-  const formId: any =  params.get('formId'); // 表单id
+  if (!siteId) {
+    return Notification.open({ title: '系统错误', content: '站点不存在', type: 'error' });
+  }
 
-  if (scence == 'website') {
+  if (scene == 'website') {
     if (!appId || !pageId) {
       return Notification.open({ title: '系统错误', content: '错误的URL', type: 'error' });
     }
@@ -148,14 +166,14 @@ async function registerPlugins() {
     if (res.code != 1) {
       return Notification.open({ title: '系统错误', content: res.msg, type: 'error' });
     }
-  } else if (scence == 'form') {
-    if(!formId) {
+  } else if (scene == 'form') {
+    if (!formId) {
       return Notification.open({ title: '系统错误', content: '错误的URL', type: 'error' });
     }
   }
 
   (window as any).state = {
-    scence,
+    scene,
     appId: Number(appId),
     pageId: Number(pageId),
     formId: Number(formId),
@@ -172,5 +190,13 @@ async function registerPlugins() {
     requestHandlersMap: {
       fetch: createFetchHandler(),
     },
+    appHelper:{
+      utils: {
+        getListLink,
+        getArticleLink,
+        navigatorTo,
+        moment,
+      }
+    }
   });
 })();

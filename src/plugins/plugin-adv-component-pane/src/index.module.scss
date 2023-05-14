@@ -14,9 +14,63 @@
     }
   }
 
-  > .tabs {
+  > .list-body {
+    height: 0;
+    display: flex;
+    margin: 12px 0;
+    border-top: 1px solid rgba(31, 56, 88, 0.1);
     flex: 1;
-    overflow: hidden;
+
+    .list-sidebar {
+      border-right: 1px solid rgba(31, 56, 88, 0.1);
+      overflow-y: auto;
+    }
+
+    .list-content {
+      flex: 1;
+      height: 100%;
+      padding: 10px 4px;
+      overflow-y: auto;
+      
+      > .sub-title {
+        color: #777;
+        font-size: 12px;
+        margin: 0;
+      }
+
+      > .list-wrap {
+        > .list-item {
+          margin-bottom: 30px;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          > .list-img-wrap {
+            min-height: 30px;
+            background-color: #efefef;
+            border: 1px solid #ececec;
+            transition: all 0.3s ease;
+            img {
+              width: 100%;
+              -webkit-user-drag: none;
+            }
+          }
+
+          &:hover {
+            > .list-img-wrap {
+              border-color: #0079f2;
+            }
+          }
+
+          > h5 {
+            display: block;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+            margin: 0;
+          }
+        }
+      }
+    }
   }
 
   > .empty {

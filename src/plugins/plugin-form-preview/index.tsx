@@ -4,19 +4,14 @@ import {
   saveSchema,
 } from '../../services/form/mockService';
 
+import { doPreview } from '../plugin-web-preview';
+
 // 保存功能示例
 const PreviewWebPlugin = (ctx: IPublicModelPluginContext) => {
   return {
     async init() {
       const { skeleton, config } = ctx;
-      const doPreview = () => {
-        const scenarioName = config.get('scenarioName');
-        saveSchema(scenarioName);
-        setTimeout(() => {
-          const search = location.search ? `${location.search}&scenarioName=${scenarioName}` : `?scenarioName=${scenarioName}`;
-          window.open(`./preview.html${search}`);
-        }, 500);
-      };
+      const scenarioName = config.get('scenarioName');
       skeleton.add({
         name: 'previewSample',
         area: 'topArea',
@@ -25,7 +20,7 @@ const PreviewWebPlugin = (ctx: IPublicModelPluginContext) => {
           align: 'right',
         },
         content: (
-          <Button type="primary" onClick={() => doPreview()}>
+          <Button type="primary" onClick={() => doPreview(scenarioName)}>
             预览
           </Button>
         ),
