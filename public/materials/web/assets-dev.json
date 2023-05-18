@@ -97,6 +97,15 @@
         ]
       },
       "advancedEditUrls": {}
+    },
+    {
+      "package": "aos",
+      "version": "2.3.1",
+      "urls": [
+        "/script/aos/aos.js",
+        "/script/aos/aos.css"
+      ],
+      "library": "aos"
     }
   ],
   "components": [

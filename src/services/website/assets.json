@@ -16,13 +16,6 @@
       ]
     },
     {
-      "package": "icon",
-      "library": "_",
-      "urls": [
-        "//at.alicdn.com/t/c/font_3985289_s4clqvzrmkm.js"
-      ]
-    },
-    {
       "title": "fusion组件库",
       "package": "@alifd/next",
       "version": "1.26.4",
@@ -62,8 +55,8 @@
       "package": "aos",
       "version": "2.3.1",
       "urls": [
-        "//unpkg.com/aos@2.3.1/dist/aos.js",
-        "//unpkg.com/aos@2.3.1/dist/aos.css"
+        "/script/aos/aos.js",
+        "/script/aos/aos.css"
       ],
       "library": "aos"
     },
@@ -71,9 +64,9 @@
       "package": "parallax",
       "version": "3.1.0",
       "urls": [
-        "//unpkg.com/parallax-js@3.1.0/dist/parallax.min.js"
+        "/script/parallax.min.js"
       ],
-      "library": "aos"
+      "library": "parallax"
     }
   ],
   "components": [],

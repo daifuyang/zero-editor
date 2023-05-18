@@ -17,6 +17,11 @@ class AosSetter extends Component<any, any> {
 
   componentDidMount() {
     const { value, defaultValue } = this.props;
+
+    if(value?.animation) {
+      this.onChangeAnimation(value.animation)
+    }
+
     if (value == undefined && defaultValue) {
       this.onChange(defaultValue);
     }
@@ -25,6 +30,125 @@ class AosSetter extends Component<any, any> {
   onChange(value: any) {
     const { onChange } = this.props;
     onChange(value);
+  }
+
+  onChangeAnimation = (value:any) => {
+    let directionOptions: any = [
+      {
+        label: '默认',
+        value: '',
+      },
+    ];
+    switch (value) {
+      case 'fade':
+        directionOptions = [
+          ...directionOptions,
+          {
+            label: '向上出现',
+            value: 'up',
+          },
+          {
+            label: '向下出现',
+            value: 'down',
+          },
+          {
+            label: '向左出现',
+            value: 'left',
+          },
+          {
+            label: '向右出现',
+            value: 'right',
+          },
+        ];
+        break;
+      case 'flip':
+        directionOptions = [
+          ...directionOptions,
+          {
+            label: '向上翻转',
+            value: 'up',
+          },
+          {
+            label: '向下翻转',
+            value: 'down',
+          },
+          {
+            label: '向左翻转',
+            value: 'left',
+          },
+          {
+            label: '向右翻转',
+            value: 'right',
+          },
+        ];
+        break;
+      case 'slide':
+        directionOptions = [
+          ...directionOptions,
+          {
+            label: '下方滑入',
+            value: 'up',
+          },
+          {
+            label: '上方滑入',
+            value: 'down',
+          },
+          {
+            label: '右侧滑入',
+            value: 'left',
+          },
+          {
+            label: '左侧滑入',
+            value: 'right',
+          },
+        ];
+        break;
+      case 'zoom-in':
+        directionOptions = [
+          ...directionOptions,
+          {
+            label: '向上渐变放大',
+            value: 'up',
+          },
+          {
+            label: '向下渐变放大',
+            value: 'down',
+          },
+          {
+            label: '向左渐变放大',
+            value: 'left',
+          },
+          {
+            label: '向右渐变放大',
+            value: 'right',
+          },
+        ];
+        break;
+      case 'zoom-out':
+        directionOptions = [
+          ...directionOptions,
+          {
+            label: '向上渐变缩小',
+            value: 'up',
+          },
+          {
+            label: '向下渐变缩小',
+            value: 'down',
+          },
+          {
+            label: '向左渐变缩小',
+            value: 'left',
+          },
+          {
+            label: '向右渐变缩小',
+            value: 'right',
+          },
+        ];
+        break;
+    }
+    this.setState({
+      directionOptions,
+    });
   }
 
   render() {
@@ -50,122 +174,7 @@ class AosSetter extends Component<any, any> {
         <Form.Item label="动画类型" name="animation">
           <Select
             onChange={(value) => {
-              let directionOptions: any = [
-                {
-                  label: '默认',
-                  value: '',
-                },
-              ];
-              switch (value) {
-                case 'fade':
-                  directionOptions = [
-                    ...directionOptions,
-                    {
-                      label: '向上出现',
-                      value: 'up',
-                    },
-                    {
-                      label: '向下出现',
-                      value: 'down',
-                    },
-                    {
-                      label: '向左出现',
-                      value: 'left',
-                    },
-                    {
-                      label: '向右出现',
-                      value: 'right',
-                    },
-                  ];
-                  break;
-                case 'flip':
-                  directionOptions = [
-                    ...directionOptions,
-                    {
-                      label: '向上翻转',
-                      value: 'up',
-                    },
-                    {
-                      label: '向下翻转',
-                      value: 'down',
-                    },
-                    {
-                      label: '向左翻转',
-                      value: 'left',
-                    },
-                    {
-                      label: '向右翻转',
-                      value: 'right',
-                    },
-                  ];
-                  break;
-                case 'slide':
-                  directionOptions = [
-                    ...directionOptions,
-                    {
-                      label: '下方滑入',
-                      value: 'up',
-                    },
-                    {
-                      label: '上方滑入',
-                      value: 'down',
-                    },
-                    {
-                      label: '右侧滑入',
-                      value: 'left',
-                    },
-                    {
-                      label: '左侧滑入',
-                      value: 'right',
-                    },
-                  ];
-                  break;
-                case 'zoom-in':
-                  directionOptions = [
-                    ...directionOptions,
-                    {
-                      label: '向上渐变放大',
-                      value: 'up',
-                    },
-                    {
-                      label: '向下渐变放大',
-                      value: 'down',
-                    },
-                    {
-                      label: '向左渐变放大',
-                      value: 'left',
-                    },
-                    {
-                      label: '向右渐变放大',
-                      value: 'right',
-                    },
-                  ];
-                  break;
-                case 'zoom-out':
-                  directionOptions = [
-                    ...directionOptions,
-                    {
-                      label: '向上渐变缩小',
-                      value: 'up',
-                    },
-                    {
-                      label: '向下渐变缩小',
-                      value: 'down',
-                    },
-                    {
-                      label: '向左渐变缩小',
-                      value: 'left',
-                    },
-                    {
-                      label: '向右渐变缩小',
-                      value: 'right',
-                    },
-                  ];
-                  break;
-              }
-              this.setState({
-                directionOptions,
-              });
+              this.onChangeAnimation(value)
             }}
             options={[
               {

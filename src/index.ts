@@ -95,6 +95,7 @@ async function registerPlugins() {
 
   await plugins.register(AdvComponentPanelPlugin);
 
+  // schema设置器
   await plugins.register(SchemaPlugin);
 
   await plugins.register(ManualPlugin);
@@ -124,6 +125,7 @@ async function registerPlugins() {
     ],
   });
 
+  // 代码编辑器
   await plugins.register(CodeEditorPlugin);
 
   // 注册出码插件
