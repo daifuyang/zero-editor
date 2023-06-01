@@ -10,6 +10,10 @@ import FormInitPlugin from './plugins/plugin-form-init'; // 表单配置器注�
 import SaveFormPlugin from './plugins/plugin-form-save';
 import PreviewFormPlugin from './plugins/plugin-form-preview';
 
+import ConsoleInitPlugin from './plugins/plugin-console-init'; // 表单配置器注册
+import SaveConsolePlugin from './plugins/plugin-console-save';
+import PreviewConsolePlugin from './plugins/plugin-console-preview';
+
 import UndoRedoPlugin from '@alilc/lowcode-plugin-undo-redo';
 import ZhEnPlugin from '@alilc/lowcode-plugin-zh-en';
 import CodeGenPlugin from '@alilc/lowcode-plugin-code-generator';
@@ -38,7 +42,7 @@ import './global.scss';
 
 import { RuntimeOptionsConfig } from '@alilc/lowcode-datasource-types';
 
-import request from 'universal-request';
+import axios from 'axios';
 import { RequestOptions, AsObject } from 'universal-request/lib/types';
 import { showPage } from './services/website/api/appPage';
 import { getSiteId } from './utils/utils';
@@ -57,7 +61,13 @@ export function createFetchHandler(config?: Record<string, unknown>) {
       ...config,
     };
     requestConfig.params.siteId = siteId
-    const response = await request(requestConfig);
+
+    if(!requestConfig?.headers?.Authorization) {
+      const token  = localStorage.getItem('token')
+      requestConfig.headers.Authorization = `Bearer ${token}`
+    }
+
+    const response = await axios(requestConfig);
     return response.data;
   };
 }
@@ -77,6 +87,9 @@ async function registerPlugins() {
     });
     await plugins.register(SaveWebsitePlugin);
     await plugins.register(PreviewWebPlugin);
+
+    await plugins.register(AdvComponentPanelPlugin);
+
   } else if (scene == 'form') {
     await plugins.register(FormInitPlugin, {
       scenarioName: 'form-' + scenarioName,
@@ -84,6 +97,14 @@ async function registerPlugins() {
     });
     await plugins.register(SaveFormPlugin);
     await plugins.register(PreviewFormPlugin);
+  } else if( scene == 'console') {
+    await plugins.register(ConsoleInitPlugin, {
+      scenarioName: 'console-' + scenarioName,
+      displayName,
+    });
+
+    await plugins.register(PreviewConsolePlugin);
+    await plugins.register(SaveConsolePlugin);
   }
 
   // 设置内置 setter 和事件绑定、插件绑定面板
@@ -92,8 +113,6 @@ async function registerPlugins() {
   await plugins.register(LogoSamplePlugin);
 
   await plugins.register(ComponentPanelPlugin);
-
-  await plugins.register(AdvComponentPanelPlugin);
 
   // schema设置器
   await plugins.register(SchemaPlugin);
@@ -150,13 +169,15 @@ async function registerPlugins() {
   const debug: any = params.get('debug'); //是否调试模式
   const formId: any = params.get('formId'); // 表单id
 
+  (window as any).state = {}
+
   if (!siteId) {
     return Notification.open({ title: '系统错误', content: '站点不存在', type: 'error' });
   }
 
   if (scene == 'website') {
     if (!appId || !pageId) {
-      return Notification.open({ title: '系统错误', content: '错误的URL', type: 'error' });
+      return Notification.open({ title: '系统错误', content: '错误的站点URL', type: 'error' });
     }
     if (!pageId) {
       return {
@@ -168,16 +189,23 @@ async function registerPlugins() {
     if (res.code != 1) {
       return Notification.open({ title: '系统错误', content: res.msg, type: 'error' });
     }
+    (window as any).state.pageId = Number(pageId)
   } else if (scene == 'form') {
     if (!formId) {
-      return Notification.open({ title: '系统错误', content: '错误的URL', type: 'error' });
+      return Notification.open({ title: '系统错误', content: '错误的表单URL', type: 'error' });
     }
+    (window as any).state.pageId = Number(pageId)
+  } else if (scene == 'console') {
+    (window as any).state.pageId = pageId
+  } else {
+    return Notification.open({ title: '系统错误', content: '非法入口', type: 'error' });
   }
 
   (window as any).state = {
     scene,
+    siteId:siteId,
     appId: Number(appId),
-    pageId: Number(pageId),
+    pageId,
     formId: Number(formId),
     debug,
   };
@@ -198,6 +226,9 @@ async function registerPlugins() {
         getArticleLink,
         navigatorTo,
         moment,
+      },
+      constants: {
+        siteId
       }
     }
   });

@@ -1,0 +1,122 @@
+{
+  "packages": [
+    {
+      "package": "moment",
+      "version": "2.24.0",
+      "urls": [
+        "https://g.alicdn.com/mylib/moment/2.24.0/min/moment.min.js"
+      ],
+      "library": "moment"
+    },
+    {
+      "package": "lodash",
+      "library": "_",
+      "urls": [
+        "https://g.alicdn.com/platform/c/lodash/4.6.1/lodash.min.js"
+      ]
+    },
+    {
+      "package": "iconfont-icons",
+      "urls": "//at.alicdn.com/t/font_2369445_ukrtsovd92r.js"
+    },
+    {
+      "package": "@ant-design/icons",
+      "version": "4.7.0",
+      "urls": [
+        "//g.alicdn.com/code/npm/@ali/ant-design-icons-cdn/4.5.0/index.umd.min.js"
+      ],
+      "library": "icons"
+    },
+    {
+      "title": "fusion组件库",
+      "package": "@alifd/next",
+      "version": "1.26.4",
+      "urls": [
+        "https://g.alicdn.com/code/lib/alifd__next/1.26.4/next.min.css",
+        "https://g.alicdn.com/code/lib/alifd__next/1.26.4/next-with-locales.min.js"
+      ],
+      "library": "Next"
+    },
+    {
+      "package": "antd",
+      "version": "4.24.10",
+      "urls": [
+        "//g.alicdn.com/code/lib/antd/4.24.10/antd.min.js",
+        "//g.alicdn.com/code/lib/antd/4.24.10/antd.min.css"
+      ],
+      "library": "antd"
+    },
+    {
+      "package": "antd-materials",
+      "version": "0.1.0",
+      "library": "AntMaterials",
+      "urls": [
+        "/materials/console/render/default/view.js",
+        "/materials/console/render/default/view.css"
+      ],
+      "editUrls": [
+        "/materials/console/view.js",
+        "/materials/console/view.css"
+      ],
+      "advancedUrls": {
+        "default": [
+          "/materials/console/render/default/view.js",
+          "/materials/console/render/default/view.css"
+        ]
+      },
+      "advancedEditUrls": {}
+    }
+  ],
+  "components": [
+    {
+      "exportName": "AntdMaterialsMeta",
+      "npm": {
+        "package": "antd-materials",
+        "version": "0.1.0"
+      },
+      "url": "/materials/console/meta.js",
+      "urls": {
+        "default": "/materials/console/meta.js"
+      },
+      "advancedUrls": {
+        "default": [
+          "/materials/console/meta.js"
+        ]
+      }
+    }
+  ],
+  "sort": {
+    "groupList": [
+      "普通组件",
+      "高级组件",
+      "精选组件",
+      "原子组件"
+    ],
+    "categoryList": [
+      "表格",
+      "容器",
+      "布局",
+      "基础",
+      "反馈",
+      "基础元素",
+      "布局容器类",
+      "表格类",
+      "表单详情类",
+      "帮助类",
+      "对话框类",
+      "业务类",
+      "通用",
+      "引导",
+      "信息输入",
+      "信息展示",
+      "信息反馈"
+    ]
+  },
+  "groupList": [
+    "普通组件",
+    "高级组件",
+    "精选组件",
+    "原子组件"
+  ],
+  "ignoreComponents": {}
+}

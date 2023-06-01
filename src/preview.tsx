@@ -11,10 +11,11 @@ import {
 
 import { RuntimeOptionsConfig } from '@alilc/lowcode-datasource-types';
 
-import request from 'universal-request';
+import axios from 'axios';
 import { RequestOptions, AsObject } from 'universal-request/lib/types';
-import { getArticleLink, getListLink, getSiteId, navigatorTo } from './utils/utils';
+import { getArticleLink, getListLink, getSiteId, navigatorTo,tips } from './utils/utils';
 import moment from 'moment';
+import { message } from 'antd';
 
 export function createFetchHandler(config?: Record<string, unknown>) {
   return async function (options: RuntimeOptionsConfig) {
@@ -27,8 +28,21 @@ export function createFetchHandler(config?: Record<string, unknown>) {
       headers: options.headers as AsObject,
       ...config,
     };
-    requestConfig.params.siteId = siteId;
-    const response = await request(requestConfig);
+
+    if (!requestConfig?.headers?.Authorization) {
+      const token = localStorage.getItem('token');
+      requestConfig.headers.Authorization = `Bearer ${token}`;
+    }
+
+    const _config: any = JSON.parse(JSON.stringify(requestConfig));
+    _config.params.siteId = siteId;
+
+    const response = await axios(_config);
+
+    if (response.data.code != 1) {
+      message.error(response.data.msg);
+    }
+
     return response.data;
   };
 }
@@ -38,6 +52,13 @@ const getScenarioName = function () {
     return new URLSearchParams(location.search.slice(1)).get('scenarioName') || 'index';
   }
   return 'index';
+};
+
+const getSiteId = function () {
+  if (location.search) {
+    return new URLSearchParams(location.search.slice(1)).get('siteId');
+  }
+  return '';
 };
 
 const SamplePreview = () => {
@@ -56,6 +77,7 @@ const SamplePreview = () => {
 
     const libraryMap = {};
     const libraryAsset = [];
+
     packages.forEach(({ package: _package, library, urls, renderUrls }) => {
       libraryMap[_package] = library;
       if (renderUrls) {
@@ -78,6 +100,8 @@ const SamplePreview = () => {
     });
   }
 
+  const siteId = getSiteId()
+
   const { schema, components } = data;
 
   if (!schema || !components) {
@@ -96,7 +120,13 @@ const SamplePreview = () => {
             getListLink,
             getArticleLink,
             navigatorTo,
+            history: {
+              push:   tips
+            },
             moment,
+          },
+          constants: {
+            siteId
           },
           requestHandlersMap: {
             fetch: createFetchHandler(),

@@ -5,6 +5,7 @@ import EditSetter from './setters/edit-setter';
 import { DataListSetter } from './setters/webSetters';
 import { FormListSetter } from './setters/fomSetters';
 import AosSetter from './setters/AosSetter';
+import PageSetter from './setters/PageSetter';
 
 // 保存功能示例
 const CustomSetterPlugin = (ctx: IPublicModelPluginContext) => {
@@ -15,6 +16,7 @@ const CustomSetterPlugin = (ctx: IPublicModelPluginContext) => {
       setters.registerSetter('DataListSetter', DataListSetter);
       setters.registerSetter('FormListSetter', FormListSetter);
       setters.registerSetter('AosSetter', AosSetter);
+      setters.registerSetter('PageSetter', PageSetter);
       // setters.registerSetter('BehaviorSetter', BehaviorSetter);
       // setters.registerSetter('CustomSetter', CustomSetter);
     },

@@ -1,4 +1,5 @@
 import { Modal } from "antd";
+import qs from "qs";
 
 export function getTextReader(lang: string) {
   return (input: Text): string => {
@@ -12,10 +13,10 @@ export function getTextReader(lang: string) {
   };
 }
 
-const countDown = (url:string) => {
-  const modal = Modal.success({
+export const tips = (url:string) => {
+  Modal.success({
     title: '系统提示',
-    content: `设计模式下无法跳转，请在原站点尝试！跳转链接：${url}?siteId=${getSiteId()}`,
+    content: `设计模式下无法跳转，请在原站点尝试！跳转链接：${url}`,
   });
 }
 
@@ -56,7 +57,10 @@ export const navigatorTo = (data:any,type:string) => {
   }else {
     url = getListLink(data)
   }
-  countDown(url)
+  const params = qs.parse(url.split('?')[1]);
+  params.siteId=getSiteId()
+  url = `${url}?${qs.stringify(params)}`
+  tips(url)
 }
 
 export const getSiteId = () => {

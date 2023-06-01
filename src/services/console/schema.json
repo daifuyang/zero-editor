@@ -1,0 +1,43 @@
+{
+  "componentName": "Page",
+  "id": "node_dockcviv8fo1",
+  "props": {
+    "style": {
+      "background": "#f0f2f5"
+    }
+  },
+  "fileName": "/",
+  "dataSource": {
+    "list": []
+  },
+  "state": {
+    "breadcrumb": {
+      "type": "JSExpression",
+      "value": "[{\n  path: '',\n  name: '一级页面'\n}, {\n  path: '',\n  name: '二级页面'\n}, {\n  path: '',\n  name: '当前页面'\n}]"
+    },
+    "name": {
+      "type": "JSExpression",
+      "value": "'一级标题'"
+    }
+  },
+  "css": "",
+  "lifeCycles": {
+    "componentDidMount": {
+      "type": "JSFunction",
+      "value": "function componentDidMount() {}",
+      "source": "function componentDidMount() {}"
+    },
+    "componentWillUnmount": {
+      "type": "JSFunction",
+      "value": "function componentWillUnmount() {}",
+      "source": "function componentWillUnmount() {}"
+    }
+  },
+  "methods": {},
+  "originCode": "class LowcodeComponent extends Component {\n  state = {\n    breadcrumb: [\n      {\n        path: '',\n        name: '一级页面',\n      },\n      {\n        path: '',\n        name: '二级页面',\n      },\n      {\n        path: '',\n        name: '当前页面',\n      },\n    ],\n    name: '一级标题'\n  }\n  componentDidMount() {\n\n  }\n  componentWillUnmount() {\n\n  }\n  onClick(event) {\n    // 点击按钮时的回调\n    this.$(\"saveModal\").show({ title: '添加医院' })\n  }\n  onFinish(values) {\n    // 提交表单且数据验证成功后回调事件\n    console.log('onFinish', values);\n  }\n  onOk() {\n    // 点击确定回调\n    console.log('onOk');\n    this.$(\"form\").submit();\n  }\n}",
+  "hidden": false,
+  "title": "",
+  "isLocked": false,
+  "condition": true,
+  "conditionGroup": ""
+}
